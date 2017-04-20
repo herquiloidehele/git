@@ -490,11 +490,14 @@ static void compile_submodule_options(const struct grep_opt *opt,
 	case GREP_PATTERN_TYPE_FIXED:
 		argv_array_push(&submodule_options, "-F");
 		break;
-	case GREP_PATTERN_TYPE_PCRE1:
+	case GREP_PATTERN_TYPE_PCRE:
 		argv_array_push(&submodule_options, "-P");
 		break;
 	case GREP_PATTERN_TYPE_UNSPECIFIED:
 		break;
+	case GREP_PATTERN_TYPE_PCRE1:
+	case GREP_PATTERN_TYPE_PCRE2:
+		die("BUG: Command-line option for pcre1 or pcre2 added without updating switch statement");
 	default:
 		die("BUG: Added a new grep pattern type without updating switch statement");
 	}
@@ -1022,7 +1025,7 @@ int cmd_grep(int argc, const char **argv, const char *prefix)
 			    GREP_PATTERN_TYPE_FIXED),
 		OPT_SET_INT('P', "perl-regexp", &pattern_type_arg,
 			    N_("use Perl-compatible regular expressions"),
-			    GREP_PATTERN_TYPE_PCRE1),
+			    GREP_PATTERN_TYPE_PCRE),
 		OPT_GROUP(""),
 		OPT_BOOL('n', "line-number", &opt.linenum, N_("show line numbers")),
 		OPT_NEGBIT('h', NULL, &opt.pathname, N_("don't show filenames"), 1),

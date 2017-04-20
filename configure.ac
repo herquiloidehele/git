@@ -259,8 +259,8 @@ GIT_PARSE_WITH([openssl]))
 # /foo/bar/include and /foo/bar/lib directories.
 #
 AC_ARG_WITH(libpcre,
-AS_HELP_STRING([--with-libpcre],[support Perl-compatible regexes (default is NO)])
-AS_HELP_STRING([],           [ARG can be also prefix for libpcre library and headers]),
+AS_HELP_STRING([--with-libpcre],[support Perl-compatible regexes via libpcre1 (default is NO)])
+AS_HELP_STRING([],           [ARG can be also prefix for libpcre1 library and headers]),
     if test "$withval" = "no"; then
 	USE_LIBPCRE=
     elif test "$withval" = "yes"; then
@@ -272,6 +272,30 @@ AS_HELP_STRING([],           [ARG can be also prefix for libpcre library and hea
         dnl USE_LIBPCRE can still be modified below, so don't substitute
         dnl it yet.
 	GIT_CONF_SUBST([LIBPCREDIR])
+    fi)
+
+# Define USE_LIBPCRE2 if you have and want to use libpcre2. Various
+# commands such as log and grep offer runtime options to use
+# Perl-compatible regular expressions instead of standard or extended
+# POSIX regular expressions.
+#
+# Define LIBPCR2EDIR=/foo/bar if your libpcre2 header and library
+# files are in /foo/bar/include and /foo/bar/lib directories.
+#
+AC_ARG_WITH(libpcre2,
+AS_HELP_STRING([--with-libpcre2],[support Perl-compatible regexes via libpcre2 (default is NO)])
+AS_HELP_STRING([],           [ARG can be also prefix for libpcre library and headers]),
+    if test "$withval" = "no"; then
+	USE_LIBPCRE2=
+    elif test "$withval" = "yes"; then
+	USE_LIBPCRE2=YesPlease
+    else
+	USE_LIBPCRE2=YesPlease
+	LIBPCRE2DIR=$withval
+	AC_MSG_NOTICE([Setting LIBPCRE2DIR to $LIBPCRE2DIR])
+        dnl USE_LIBPCRE2 can still be modified below, so don't substitute
+        dnl it yet.
+	GIT_CONF_SUBST([LIBPCRE2DIR])
     fi)
 #
 # Define HAVE_ALLOCA_H if you have working alloca(3) defined in that header.
@@ -518,6 +542,27 @@ AC_CHECK_LIB([pcre], [pcre_version],
 GIT_UNSTASH_FLAGS($LIBPCREDIR)
 
 GIT_CONF_SUBST([USE_LIBPCRE])
+
+fi
+
+#
+# Define USE_LIBPCRE2 if you have and want to use libpcre2. Various
+# commands such as log and grep offer runtime options to use
+# Perl-compatible regular expressions instead of standard or extended
+# POSIX regular expressions.
+#
+
+if test -n "$USE_LIBPCRE2"; then
+
+GIT_STASH_FLAGS($LIBPCRE2DIR)
+
+AC_CHECK_LIB([pcre2-8], [pcre2_config_8],
+[USE_LIBPCRE2=YesPlease],
+[USE_LIBPCRE2=])
+
+GIT_UNSTASH_FLAGS($LIBPCRE2DIR)
+
+GIT_CONF_SUBST([USE_LIBPCRE2])
 
 fi
 

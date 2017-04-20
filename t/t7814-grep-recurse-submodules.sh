@@ -361,8 +361,16 @@ test_expect_success 'grep --recurse-submodules should pass the pattern type alon
 		test_cmp expect actual &&
 		git -c grep.patternType=pcre grep --recurse-submodules -e "(.|.)[\d]" >actual &&
 		test_cmp expect actual &&
-		git -c grep.patternType=pcre1 grep --recurse-submodules -e "(.|.)[\d]" >actual &&
-		test_cmp expect actual
+		if test_have_prereq LIBPCRE1
+		then
+			git -c grep.patternType=pcre1 grep --recurse-submodules -e "(.|.)[\d]" >actual &&
+			test_cmp expect actual
+		fi &&
+		if test_have_prereq LIBPCRE2
+		then
+			git -c grep.patternType=pcre2 grep --recurse-submodules -e "(.|.)[\d]" >actual &&
+			test_cmp expect actual
+		fi
 	fi
 '
 

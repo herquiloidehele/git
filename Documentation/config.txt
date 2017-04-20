@@ -1625,14 +1625,12 @@ grep.patternType::
 	`--fixed-strings`, or `--perl-regexp` option accordingly, while the
 	value 'default' will return to the default matching behavior.
 +
-The 'pcre' and 'pcre1' values are synonyms for 'perl'. The other
-values starting with 'pcre' are reserved for future use, e.g. if we'd
-like to use 'pcre2' for the PCRE v2 library.
+The 'perl' and 'pcre' values are synonyms. Depending on which PCRE
+library Git was compiled with either or both of 'pcre1' and 'pcre2'
+might also be available.
 +
-In the future 'perl' and 'pcre' might become synonyms for some other
-implementation or PCRE version, such as 'pcre2', while the more
-specific 'pcre1' & 'pcre2' might throw errors depending on whether git
-is compiled to include those libraries.
+If both are available Git currently defaults to 'pcre1', but this
+might change in future versions.
 
 grep.extendedRegexp::
 	If set to true, enable `--extended-regexp` option by default. This
