@@ -255,25 +255,25 @@ GIT_PARSE_WITH([openssl]))
 # Perl-compatible regular expressions instead of standard or extended
 # POSIX regular expressions.
 #
-# Currently USE_LIBPCRE is a synonym for USE_LIBPCRE1, define
-# USE_LIBPCRE2 instead if you'd like to use version 2 of the PCRE
-# library. The USE_LIBPCRE flag will likely be changed to mean v2 by
-# default in future releases.
+# The USE_LIBPCRE flag is a synonym for USE_LIBPCRE2, in previous
+# versions it meant the same thing USE_LIBPCRE1 does now. Define
+# USE_LIBPCRE1 instead if you'd like to use the legacy version 1 of
+# the PCRE library.
 #
 # Define LIBPCREDIR=/foo/bar if your PCRE header and library files are in
 # /foo/bar/include and /foo/bar/lib directories.
 #
 AC_ARG_WITH(libpcre,
-AS_HELP_STRING([--with-libpcre],[synonym for --with-libpcre1]),
+AS_HELP_STRING([--with-libpcre],[synonym for --with-libpcre2]),
     if test "$withval" = "no"; then
-	USE_LIBPCRE1=
+	USE_LIBPCRE2=
     elif test "$withval" = "yes"; then
-	USE_LIBPCRE1=YesPlease
+	USE_LIBPCRE2=YesPlease
     else
-	USE_LIBPCRE1=YesPlease
+	USE_LIBPCRE2=YesPlease
 	LIBPCREDIR=$withval
 	AC_MSG_NOTICE([Setting LIBPCREDIR to $LIBPCREDIR])
-        dnl USE_LIBPCRE1 can still be modified below, so don't substitute
+        dnl USE_LIBPCRE2 can still be modified below, so don't substitute
         dnl it yet.
 	GIT_CONF_SUBST([LIBPCREDIR])
     fi)

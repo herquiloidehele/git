@@ -29,10 +29,10 @@ all::
 # Perl-compatible regular expressions instead of standard or extended
 # POSIX regular expressions.
 #
-# Currently USE_LIBPCRE is a synonym for USE_LIBPCRE1, define
-# USE_LIBPCRE2 instead if you'd like to use version 2 of the PCRE
-# library. The USE_LIBPCRE flag will likely be changed to mean v2 by
-# default in future releases.
+# The USE_LIBPCRE flag is a synonym for USE_LIBPCRE2, in previous
+# versions it meant the same thing USE_LIBPCRE1 does now. Define
+# USE_LIBPCRE1 instead if you'd like to use the legacy version 1 of
+# the PCRE library.
 #
 # Define LIBPCREDIR=/foo/bar if your PCRE header and library files are in
 # /foo/bar/include and /foo/bar/lib directories.
@@ -1090,18 +1090,17 @@ ifdef NO_LIBGEN_H
 	COMPAT_OBJS += compat/basename.o
 endif
 
-USE_LIBPCRE1 ?= $(USE_LIBPCRE)
+USE_LIBPCRE2 ?= $(USE_LIBPCRE)
 
-ifneq (,$(USE_LIBPCRE1))
-	ifdef USE_LIBPCRE2
-$(error Only set USE_LIBPCRE1 (or its alias USE_LIBPCRE) or USE_LIBPCRE2, not both!)
-	endif
-
+ifdef USE_LIBPCRE1
 	BASIC_CFLAGS += -DUSE_LIBPCRE1
 	EXTLIBS += -lpcre
 endif
 
-ifdef USE_LIBPCRE2
+ifneq (,$(USE_LIBPCRE2))
+	ifdef USE_LIBPCRE1
+$(error Only set USE_LIBPCRE2 (or its alias USE_LIBPCRE) or USE_LIBPCRE1, not both!)
+	endif
 	BASIC_CFLAGS += -DUSE_LIBPCRE2
 	EXTLIBS += -lpcre2-8
 endif
