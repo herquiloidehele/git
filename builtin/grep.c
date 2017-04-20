@@ -495,9 +495,6 @@ static void compile_submodule_options(const struct grep_opt *opt,
 		break;
 	case GREP_PATTERN_TYPE_UNSPECIFIED:
 		break;
-	case GREP_PATTERN_TYPE_PCRE1:
-	case GREP_PATTERN_TYPE_PCRE2:
-		die("BUG: Command-line option for pcre1 or pcre2 added without updating switch statement");
 	default:
 		die("BUG: Added a new grep pattern type without updating switch statement");
 	}

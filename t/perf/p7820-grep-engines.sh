@@ -7,7 +7,7 @@ test_description="Comparison of git-grep's regex engines"
 test_perf_large_repo
 test_checkout_worktree
 
-for engine in extended pcre1 pcre2
+for engine in extended perl
 do
 	# Patterns stolen from http://sljit.sourceforge.net/pcre.html
 	for pattern in \

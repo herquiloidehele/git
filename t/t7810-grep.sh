@@ -1063,16 +1063,6 @@ test_expect_success PCRE 'grep -P pattern' '
 	test_cmp expected actual
 '
 
-test_expect_success LIBPCRE1 'grep libpcre1 pattern' '
-	git -c grep.patternType=pcre1 grep "\p{Ps}.*?\p{Pe}" hello.c >actual &&
-	test_cmp expected actual
-'
-
-test_expect_success LIBPCRE2 'grep libpcre2 pattern' '
-	git -c grep.patternType=pcre2 grep "\p{Ps}.*?\p{Pe}" hello.c >actual &&
-	test_cmp expected actual
-'
-
 test_expect_success 'grep pattern with grep.extendedRegexp=true' '
 	>empty &&
 	test_must_fail git -c grep.extendedregexp=true \
@@ -1522,28 +1512,10 @@ test_expect_success 'grep does not report i-t-a and assume unchanged with -L' '
 	test_cmp expected actual
 '
 
-test_expect_success PCRE "grep with grep.patternType synonyms perl/pcre" '
+test_expect_success PCRE "grep with grep.patternType synonyms perl" '
 	echo "#include <stdio.h>" >expected &&
 	git -c grep.patternType=perl  grep -h --no-line-number "st(?=dio)" >actual &&
-	test_cmp expected actual &&
-	git -c grep.patternType=pcre  grep -h --no-line-number "st(?=dio)" >actual &&
 	test_cmp expected actual
-'
-
-test_expect_success LIBPCRE1 "grep with grep.patternType=pcre1" '
-	echo "#include <stdio.h>" >expected &&
-	git -c grep.patternType=pcre1 grep -h --no-line-number "st(?=dio)" >actual &&
-	test_cmp expected actual &&
-	test_must_fail git -c grep.patternType=pcre1 grep "foo(?+bar)" 2>error &&
-	test_i18ngrep -q "digit expected after" error
-'
-
-test_expect_success LIBPCRE2 "grep with grep.patternType=pcre2" '
-	echo "#include <stdio.h>" >expected &&
-	git -c grep.patternType=pcre2 grep -h --no-line-number "st(?=dio)" >actual &&
-	test_cmp expected actual &&
-	test_must_fail git -c grep.patternType=pcre2 grep "foo(?+bar)" 2>error &&
-	test_i18ngrep -q "digit expected after" error
 '
 
 test_done

@@ -1624,13 +1624,6 @@ grep.patternType::
 	'fixed', or 'perl' will enable the `--basic-regexp`, `--extended-regexp`,
 	`--fixed-strings`, or `--perl-regexp` option accordingly, while the
 	value 'default' will return to the default matching behavior.
-+
-The 'perl' and 'pcre' values are synonyms. Depending on which PCRE
-library Git was compiled with either or both of 'pcre1' and 'pcre2'
-might also be available.
-+
-If both are available Git currently defaults to 'pcre1', but this
-might change in future versions.
 
 grep.extendedRegexp::
 	If set to true, enable `--extended-regexp` option by default. This

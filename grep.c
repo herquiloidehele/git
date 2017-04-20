@@ -60,13 +60,8 @@ static int parse_pattern_type_arg(const char *opt, const char *arg)
 		return GREP_PATTERN_TYPE_ERE;
 	else if (!strcmp(arg, "fixed"))
 		return GREP_PATTERN_TYPE_FIXED;
-	else if (!strcmp(arg, "perl") ||
-		 !strcmp(arg, "pcre"))
+	else if (!strcmp(arg, "perl"))
 		return GREP_PATTERN_TYPE_PCRE;
-	else if (!strcmp(arg, "pcre1"))
-		return GREP_PATTERN_TYPE_PCRE1;
-	else if (!strcmp(arg, "pcre2"))
-		return GREP_PATTERN_TYPE_PCRE2;
 	die("bad %s argument: %s", opt, arg);
 }
 
@@ -214,18 +209,6 @@ static void grep_set_pattern_type_option(enum grep_pattern_type pattern_type, st
 		opt->pcre1 = 0;
 		opt->pcre2 = 1;
 #endif
-		break;
-
-	case GREP_PATTERN_TYPE_PCRE1:
-		opt->fixed = 0;
-		opt->pcre1 = 1;
-		opt->pcre2 = 0;
-		break;
-
-	case GREP_PATTERN_TYPE_PCRE2:
-		opt->fixed = 0;
-		opt->pcre1 = 0;
-		opt->pcre2 = 1;
 		break;
 	}
 }
