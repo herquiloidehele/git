@@ -726,8 +726,7 @@ static struct attr_stack *read_attr_from_file(const char *path, int macro_ok)
 	int lineno = 0;
 
 	if (!fp) {
-		if (errno != ENOENT && errno != ENOTDIR)
-			warn_on_inaccessible(path);
+		warn_failure_to_read_open_optional_path(path);
 		return NULL;
 	}
 	res = xcalloc(1, sizeof(*res));

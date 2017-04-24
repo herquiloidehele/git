@@ -253,8 +253,12 @@ static void read_remotes_file(struct remote *remote)
 	struct strbuf buf = STRBUF_INIT;
 	FILE *f = fopen(git_path("remotes/%s", remote->name), "r");
 
-	if (!f)
+	if (!f) {
+		if (errno != ENOENT)
+			warn_on_inaccessible(git_path("remotes/%s",
+						      remote->name));
 		return;
+	}
 	remote->configured_in_repo = 1;
 	remote->origin = REMOTE_REMOTES;
 	while (strbuf_getline(&buf, f) != EOF) {
@@ -279,8 +283,12 @@ static void read_branches_file(struct remote *remote)
 	struct strbuf buf = STRBUF_INIT;
 	FILE *f = fopen(git_path("branches/%s", remote->name), "r");
 
-	if (!f)
+	if (!f) {
+		if (errno != ENOENT)
+			warn_on_inaccessible(git_path("branches/%s",
+						      remote->name));
 		return;
+	}
 
 	strbuf_getline_lf(&buf, f);
 	fclose(f);

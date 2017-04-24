@@ -576,6 +576,12 @@ int remove_or_warn(unsigned int mode, const char *file)
 	return S_ISGITLINK(mode) ? rmdir_or_warn(file) : unlink_or_warn(file);
 }
 
+void warn_failure_to_read_open_optional_path(const char *path)
+{
+	if (errno != ENOENT && errno != ENOTDIR)
+		warn_on_inaccessible(path);
+}
+
 void warn_on_inaccessible(const char *path)
 {
 	warning_errno(_("unable to access '%s'"), path);

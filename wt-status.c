@@ -1067,6 +1067,8 @@ static char *read_line_from_git_path(const char *filename)
 	struct strbuf buf = STRBUF_INIT;
 	FILE *fp = fopen(git_path("%s", filename), "r");
 	if (!fp) {
+		if (errno != ENOENT)
+			warn_on_inaccessible(git_path("%s", filename));
 		strbuf_release(&buf);
 		return NULL;
 	}

@@ -1428,7 +1428,8 @@ int git_config_from_file(config_fn_t fn, const char *filename, void *data)
 		ret = do_config_from_file(fn, CONFIG_ORIGIN_FILE, filename, filename, f, data);
 		funlockfile(f);
 		fclose(f);
-	}
+	} else if (errno != ENOENT)
+		warn_on_inaccessible(filename);
 	return ret;
 }
 
@@ -2640,6 +2641,11 @@ int git_config_rename_section_in_file(const char *config_filename,
 	}
 
 	if (!(config_file = fopen(config_filename, "rb"))) {
+		if (errno != ENOENT) {
+			warn_on_inaccessible(config_filename);
+			ret = -1;
+			goto out;
+		}
 		/* no config file means nothing to rename, no error */
 		goto commit_and_out;
 	}

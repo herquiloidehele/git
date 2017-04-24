@@ -670,8 +670,11 @@ static int is_expected_rev(const struct object_id *oid)
 		return 0;
 
 	fp = fopen(filename, "r");
-	if (!fp)
+	if (!fp) {
+		if (errno != ENOENT)
+			warn_on_inaccessible(filename);
 		return 0;
+	}
 
 	if (strbuf_getline_lf(&str, fp) != EOF)
 		res = !strcmp(str.buf, oid_to_hex(oid));

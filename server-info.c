@@ -134,8 +134,11 @@ static int read_pack_info_file(const char *infofile)
 	int old_cnt = 0;
 
 	fp = fopen(infofile, "r");
-	if (!fp)
+	if (!fp) {
+		if (errno != ENOENT)
+			warn_on_inaccessible(infofile);
 		return 1; /* nonexistent is not an error. */
+	}
 
 	while (fgets(line, sizeof(line), fp)) {
 		int len = strlen(line);
