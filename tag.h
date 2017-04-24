@@ -9,7 +9,7 @@ struct tag {
 	struct object object;
 	struct object *tagged;
 	char *tag;
-	unsigned long date;
+	timestamp_t date;
 };
 
 extern struct tag *lookup_tag(const struct object_id *oid);
