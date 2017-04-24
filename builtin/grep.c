@@ -502,6 +502,8 @@ static void compile_submodule_options(const struct grep_opt *opt,
 		break;
 	case GREP_PATTERN_TYPE_UNSPECIFIED:
 		break;
+	default:
+		die("BUG: Added a new grep pattern type without updating switch statement");
 	}
 
 	for (pattern = opt->pattern_list; pattern != NULL;
@@ -522,6 +524,8 @@ static void compile_submodule_options(const struct grep_opt *opt,
 		case GREP_PATTERN_BODY:
 		case GREP_PATTERN_HEAD:
 			break;
+		default:
+			die("BUG: Added a new grep token type without updating case statement");
 		}
 	}
 
