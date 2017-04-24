@@ -88,12 +88,12 @@ test_expect_success 'OPT_BOOL() is idempotent #1' 'check boolean: 1 --yes --yes'
 test_expect_success 'OPT_BOOL() is idempotent #2' 'check boolean: 1 -DB'
 
 test_expect_success 'OPT_BOOL() negation #1' 'check boolean: 0 -D --no-yes'
-test_expect_success 'OPT_BOOL() negation #2' 'check boolean: 0 -D --no-no-doubt'
 
 test_expect_success 'OPT_BOOL() no negation #1' 'check_unknown_i18n --fear'
 test_expect_success 'OPT_BOOL() no negation #2' 'check_unknown_i18n --no-no-fear'
 
 test_expect_success 'OPT_BOOL() positivation' 'check boolean: 0 -D --doubt'
+test_expect_success 'OPT_BOOL() no double negatoin' 'check_unknown_i18n --no-no-doubt'
 
 test_expect_success 'OPT_INT() negative' 'check integer: -2345 -i -2345'
 

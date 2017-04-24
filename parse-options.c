@@ -299,6 +299,9 @@ is_abbreviated:
 				}
 				continue;
 			}
+			/* avoid double-negate on long_name */
+			if (starts_with(long_name, "no-"))
+				continue;
 			flags |= OPT_UNSET;
 			if (!skip_prefix(arg + 3, long_name, &rest)) {
 				/* abbreviated and negated? */
